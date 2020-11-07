@@ -1,0 +1,39 @@
+<Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded">
+    <Page.actionBar>
+        <ActionBar title="Select Device">
+            <ActionItem tap="onDone" text="Done" android.position="actionBar" />
+        </ActionBar>
+    </Page.actionBar>
+    <StackLayout class="p-10">
+        <GridLayout columns="*, *" rows="auto, auto, auto, auto" horizontalAlignment="center">
+            <android>
+                <Button row="0" col="0" text="Is Bluetooth Enabled?" tap="{{ doIsBluetoothEnabled }}" class="btn btn-primary" />
+                <Button row="0" col="1" text="Enable Bluetooth" tap="{{ doEnableBluetooth }}" class="btn btn-green" />
+            </android>
+            <Label row="1" colSpan="2" text="Scan 2 seconds for:" class="hint text-center" textWrap="true" />
+            <android>
+                <Button row="2" col="0" text="Any Device" tap="{{ doStartScanning }}" class="btn btn-green" />
+                <Button row="2" col="1" text="UART" tap="{{ doScanForUARTMonitor }}" class="btn btn-green" />
+            </android>
+            <Button row="3" colSpan="2" text="Stop Scan" tap="{{ doStopScanning }}" class="btn btn-red" />
+        </GridLayout>
+        <ActivityIndicator busy="{{ isLoading }}" />
+        <GridLayout rows="*">
+            <ListView items="{{ peripherals }}" separatorColor="#90c3d4">
+                <ListView.itemTemplate  class="list-group-item">
+                    <StackLayout orientation="horizontal" class="padded-label">
+                        <StackLayout class="padded-label-stack">
+                            <Image horizontalAlignment="right" width="30" src="~/res/signal-strength.png" />
+                            <Label horizontalAlignment="right" width="30" text="{{ RSSI }}" class="rssi-label" />
+                        </StackLayout>
+                        <StackLayout class="padded-label-stack">
+                            <Label text="{{ localName || name }}" class="title-label" textWrap="true" />
+                            <Label text="{{ UUID }}" class="uuid-label" textWrap="true" />
+                        </StackLayout>
+                        <Button text="Select" tap="onPeripheralTap" />
+                    </StackLayout>
+                </ListView.itemTemplate>
+            </ListView>
+        </GridLayout>
+    </StackLayout>
+</Page>

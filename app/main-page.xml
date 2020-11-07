@@ -1,0 +1,129 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:gauge="nativescript-ui-gauge" navigatedTo="loaded" navigatingTo="navigatingto">
+    <Page.actionBar>
+        <ActionBar title="Navigation Monitor">
+            <ActionItem tap="onSelect" android.position="actionBar">
+                <Label class="action" text="Select Device" />
+            </ActionItem>
+            <ActionItem tap="{{ onClose }}" android.position="actionBar">
+                <Label class="action" text="Disconnect" />
+            </ActionItem>
+            <ActionItem tap="{{ onSendCmd }}" android.position="actionBar">
+                <Label class="action" text="Send Cmd" />
+            </ActionItem>
+        </ActionBar>
+    </Page.actionBar>
+    <StackLayout>
+        <GridLayout class="data" rows="auto, auto, *, 150, auto" columns="*, *, *, *">
+            <StackLayout class="info" row="0" col="0">
+                <Label class="heading" text="Apparent Wind" style="horizontal-align:center;" />
+    
+                <Label text="{{ wind.apparent.speed + ' knots' }}" style="horizontal-align:center;" />
+                <Label text="{{ windApparentStr }}" style="horizontal-align:center;" />
+            </StackLayout>
+            <StackLayout class="info" row="0" col="1">
+                <Label class="heading" text="Depth" style="horizontal-align:center;" />
+    
+                <Label text="{{ depth.metres +'m'}}" style="horizontal-align:center;" />
+    
+            </StackLayout>
+
+            <StackLayout class="info" row="0" col="2">
+                <Label class="heading" text="Position" style="horizontal-align:center;" />
+    
+                <Label text="{{ latitudeStr }}" style="horizontal-align:center;" />
+                <Label text="{{ longitudeStr }}" style="horizontal-align:center;" />
+            </StackLayout>
+            <StackLayout class="info" row="0" col="3">
+                <Label class="heading" text="Compass" style="horizontal-align:center;" />
+    
+                <Label text="{{ compassVariationStr }}" style="horizontal-align:center;" />
+                <Label text="{{ compassAngleStr }}" style="horizontal-align:center;" />
+            </StackLayout>
+            <gauge:RadRadialGauge id="windGaugeView" row="1" col="0">
+                <gauge:RadRadialGauge.scales>
+                    <gauge:RadialScale startAngle="-90" sweepAngle="360" minimum="0" maximum="359" radius="0.90">
+                        <gauge:RadialScale.scaleStyle>
+                            <gauge:ScaleStyle majorTicksCount="5" minorTicksCount="8" lineThickness="0" labelsCount="7" ticksOffset="0" />
+                        </gauge:RadialScale.scaleStyle>
+
+                        <gauge:RadialScale.indicators>
+                            <gauge:RadialBarIndicator minimum="0" maximum="45" location="0.97">
+                                <gauge:RadialBarIndicator.indicatorStyle>
+                                    <gauge:BarIndicatorStyle fillColor="#0f0" />
+                                </gauge:RadialBarIndicator.indicatorStyle>
+                            </gauge:RadialBarIndicator>
+
+                            <gauge:RadialBarIndicator minimum="315" maximum="359" location="0.97">
+                                <gauge:RadialBarIndicator.indicatorStyle>
+                                    <gauge:BarIndicatorStyle fillColor="#f00" />
+                                </gauge:RadialBarIndicator.indicatorStyle>
+                            </gauge:RadialBarIndicator>
+
+                            <gauge:RadialNeedle value="0" />
+                        </gauge:RadialScale.indicators>
+                    </gauge:RadialScale>
+                </gauge:RadRadialGauge.scales>
+            </gauge:RadRadialGauge>
+            <StackLayout class="info" row="1" col="1">
+                <Label class="heading" text="Speed" style="horizontal-align:center;" />
+    
+                <Label text="{{ speedWaterStr }}" style="horizontal-align:center;" />
+                <Label text="{{ speedGroundStr }}" style="horizontal-align:center;" />
+            </StackLayout>
+            <StackLayout class="info" row="1" col="2">
+                <Label class="heading" text="Course" style="horizontal-align:center;" />
+    
+                <Label text="{{ courseAngleStr }}" style="horizontal-align:center;" />
+                <Label text="{{ courseDestinationStr }}" style="horizontal-align:center;" />
+                <Label text="{{ 'AutoPilot: '+ autopilotMode }}" style="font-size: 20em" />
+            </StackLayout>
+            <gauge:RadRadialGauge id="compassGaugeView" row="1" col="3" tap="{{ onToggleComapass }}">
+                <gauge:RadRadialGauge.scales>
+                    <gauge:RadialScale startAngle="-90" sweepAngle="360" minimum="0" maximum="360" radius="0.90">
+                        <gauge:RadialScale.scaleStyle>
+                            <gauge:ScaleStyle labelsSize="35" majorTicksCount="5" minorTicksCount="8" lineThickness="0" labelsCount="7" ticksOffset="0" />
+                        </gauge:RadialScale.scaleStyle>
+                        <gauge:RadialScale.indicators>
+                            <gauge:RadialBarIndicator minimum="-5" maximum="5" location="0.97">
+                                <gauge:RadialBarIndicator.indicatorStyle>
+                                    <gauge:BarIndicatorStyle fillColor="#888" />
+                                </gauge:RadialBarIndicator.indicatorStyle>
+                            </gauge:RadialBarIndicator>
+                            <gauge:RadialNeedle value="0" />
+                        </gauge:RadialScale.indicators>
+                    </gauge:RadialScale>
+                </gauge:RadRadialGauge.scales>
+            </gauge:RadRadialGauge>
+            <StackLayout>
+                <label row="2" col="0" text="" />
+            </StackLayout>
+            <Button row="3" col="0" text="-10" tap="{{ onPort_10 }}" longPress="{{ onTackPort }}" class="AutoP_btn port_10" />
+            <Button row="3" col="1" text="-1" tap="{{ onPort_1 }}" class="AutoP_btn port_1" />
+            <Button row="3" col="2" text="+1" tap="{{ onStbd_1 }}" class="AutoP_btn stbd_1" />
+            <Button row="3" col="3" text="+10" tap="{{ onStbd_10 }}" longPress="{{ onTackStbd }}" class="AutoP_btn stbd_10" />
+            <Label row="4" col="0" class="status" text="{{ connected ? 'Connected' : 'Off-Line'}}" />
+            <Label row="4" col="1" colSpan="2" class="status" text="{{ cmd + showCompass }}" />
+            <Label row="4" col="3" class="status" text="{{ msg }}" />
+
+            <gauge:RadRadialGauge id="compassGaugeViewLarge" row="0" col="1" colSpan="2" rowSpan="3" 
+                style="background-color:blue;" visibility="{{ showCompass ? 'visible' : 'collapse' }}"
+                zindex="5" tap="{{ onToggleComapass }}">
+                <gauge:RadRadialGauge.scales>
+                    <gauge:RadialScale startAngle="-90" sweepAngle="360" minimum="0" maximum="360" radius="0.90">
+                        <gauge:RadialScale.scaleStyle>
+                            <gauge:ScaleStyle labelsSize="50" majorTickslength="100" majorTicksCount="5" minorTicksCount="8" lineThickness="0" labelsCount="7" ticksOffset="0" />
+                        </gauge:RadialScale.scaleStyle>
+                        <gauge:RadialScale.indicators>
+                            <gauge:RadialBarIndicator  minimum="-5" maximum="5" location="0.97">
+                                <gauge:RadialBarIndicator.indicatorStyle>
+                                    <gauge:BarIndicatorStyle fillColor="#888" />
+                                </gauge:RadialBarIndicator.indicatorStyle>
+                            </gauge:RadialBarIndicator>
+                            <gauge:RadialNeedle value="0" />
+                        </gauge:RadialScale.indicators>
+                    </gauge:RadialScale>
+                </gauge:RadRadialGauge.scales>
+            </gauge:RadRadialGauge>
+        </GridLayout>
+    </StackLayout>
+</Page>

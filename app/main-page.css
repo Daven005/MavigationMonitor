@@ -1,0 +1,52 @@
+.action {
+    color: #88f;
+    font-size: 20;
+}
+ActionBar {
+    background-color: black;
+    color: wheat
+}
+Label {
+    text-align:center;
+}
+.data {
+    background-color: rgb(71, 71, 126); 
+    font-size:30;
+    color: white;
+}
+.status {
+    background-color: #888;
+    font-size: 15;
+}
+.info {
+    border-width: 2px;
+    margin: 2px;
+}
+.heading {
+    font-style: italic;
+    font-size: 20em;
+}
+.AutoP_btn {
+    border-radius: 100%;
+    font-size: 60em;
+    height: 250px;
+    width: 250px;
+    border-width: 4px;
+    margin: 10px;
+}
+.port_10 {
+    background-color: rgb(167, 62, 62);
+    color:rgb(250, 126, 126);
+}
+.port_1 {
+    background-color: rgb(167, 62, 62);
+    color:rgb(250, 126, 126);
+}
+.stbd_1 {
+    background-color: rgb(21, 114, 70);
+    color:rgb(115, 175, 115);
+}
+.stbd_10 {
+    background-color: rgb(21, 114, 70);
+    color:rgb(115, 175, 115);
+}
